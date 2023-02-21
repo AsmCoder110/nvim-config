@@ -323,21 +323,42 @@ require "lazy".setup({
                 },
                 automatic_installation = true,
             }
+            local opts = { noremap = true, silent = true }
+            vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
+            vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+            vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+            vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 
-            local lsp_capabilities = require "cmp_nvim_lsp"
-                .default_capabilities()
-            local lsp_attach       = function(_, _)
-                vim.keymap.set("n", "gI", vim.lsp.buf.implementation,
-                               { desc = "[G]oto [I]mplementation" })
-                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,
-                               { desc = "Rename" })
-                vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
-                               { desc = "[C]ode [A]ction" })
-                vim.keymap.set("n", "<leader>ch", vim.lsp.buf.hover,
-                               { desc = "[C]ode [H]over" })
-                vim.keymap.set("n", "<leader>f", vim.lsp.buf.format,
-                               { desc = "[F]ormat code" })
+            -- Use an on_attach function to only map the following keys
+            -- after the language server attaches to the current buffer
+            local lsp_attach       = function(_, bufnr)
+                -- Enable completion triggered by <c-x><c-o>
+                vim.api.nvim_buf_set_option(bufnr, "omnifunc",
+                                            "v:lua.vim.lsp.omnifunc")
 
+                -- Mappings.
+                -- See `:help vim.lsp.*` for documentation on any of the below functions
+                local bufopts = { noremap = true, silent = true, buffer = bufnr }
+                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+                vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+                vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+                vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+                vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+                vim.keymap.set("n", "<space>wa", vim.lsp.buf
+                .add_workspace_folder, bufopts)
+                vim.keymap.set("n", "<space>wr",
+                               vim.lsp.buf.remove_workspace_folder, bufopts)
+                vim.keymap.set("n", "<space>wl", function()
+                    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+                end,           bufopts)
+                vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition,
+                               bufopts)
+                vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, bufopts)
+                vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
+                vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+                vim.keymap.set("n", "<leader>F",
+                               function() vim.lsp.buf.format { async = true } end,
+                               bufopts)
                 local telescope = require "telescope.builtin"
                 vim.keymap.set("n", "<leader>ds", telescope.lsp_document_symbols,
                                { desc = "[D]ocument [S]ymbols" })
@@ -350,8 +371,10 @@ require "lazy".setup({
                 vim.keymap.set("n", "<leader>rf", telescope.lsp_references,
                                { desc = "lsp references" })
             end
-
+            local lsp_capabilities = require "cmp_nvim_lsp"
+                .default_capabilities()
             local lspconfig        = require "lspconfig"
+
             require "mason-lspconfig".setup_handlers {
                 function(server_name)
                     lspconfig[server_name].setup {
@@ -360,7 +383,9 @@ require "lazy".setup({
                     }
                 end,
             }
-            require "lspconfig".lua_ls.setup {
+
+            lspconfig.lua_ls.setup {
+                on_attach = lsp_attach,
                 settings = {
                     Lua = {
                         runtime = {
@@ -401,8 +426,19 @@ require "lazy".setup({
                     },
                 },
             }
-            -- lspconfig.setup()
 
+            lspconfig.clangd.setup {
+                on_attach = lsp_attach,
+                settings = {
+                    clangd = {
+                        checkUpdates = true,
+                        -- arguments = [ "--clang-tidy" ],
+                    },
+                },
+            }
+            --lspconfig.setup()
+
+            require "luasnip.loaders.from_vscode".lazy_load()
             local cmp         = require "cmp"
             local luasnip     = require "luasnip"
 
@@ -414,11 +450,10 @@ require "lazy".setup({
                     end
                 },
                 sources = {
-                    { name = "path" },
                     { name = "nvim_lsp", keyword_length = 1 },
                     { name = "buffer",   keyword_length = 1 },
                     { name = "luasnip",  keyword_length = 1 },
-
+                    { name = "path",     keyword_length = 1 },
                 },
                 window = {
                     documentation = cmp.config.window.bordered()
@@ -457,7 +492,7 @@ require "lazy".setup({
                             fallback()
                         end
                     end,                    { "i", "s" }),
-                    ["<Tab>"] = cmp.mapping(function(fallback)
+                    ["<c-g>"] = cmp.mapping(function(fallback)
                         local col = vim.fn.col "." - 1
                         if cmp.visible() then
                             cmp.select_next_item(select_opts)
@@ -472,6 +507,7 @@ require "lazy".setup({
 
                 }
             }
+
             local sign = function(opts)
                 vim.fn.sign_define(opts.name, {
                     texthl = opts.name,
