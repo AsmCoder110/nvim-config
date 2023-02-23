@@ -38,7 +38,7 @@ vim.g.netrw_preview  = 1
 vim.cmd "au BufWrite * silent! mkview"
 vim.cmd "au BufRead * silent! loadview"
 vim.cmd "au BufWritePre * silent! %s/s+$//e"
--- vim.cmd("au BufWritePre *.js,*.css,*.html,*.lua,*.rs,*.cpp,*.c,*.mjs lua vim.lsp.buf.format()")
+vim.cmd("au BufWritePre *.js,*.css,*.html,*.lua,*.rs,*.cpp,*.c,*.mjs lua vim.lsp.buf.format()")
 
 vim.cmd "hi CocUnderline gui=undercurl term=undercurl"
 vim.cmd
