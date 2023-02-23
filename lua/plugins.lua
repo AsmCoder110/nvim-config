@@ -16,7 +16,11 @@ require "lazy".setup({
     {
         "nvim-lualine/lualine.nvim",
         lazy = false,
+        dependencies = { "arkav/lualine-lsp-progress" },
         config = function()
+            local function num()
+                return vim.fn.tabpagenr()
+            end
             require "lualine".setup {
                 options = {
                     globalstatus  = true,
