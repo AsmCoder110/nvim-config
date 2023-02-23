@@ -181,6 +181,14 @@ require "lazy".setup({
         end,
     },
     {
+        "folke/trouble.nvim",
+        event = "VeryLazy",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            require "trouble".setup()
+        end
+    },
+    {
         "stevearc/dressing.nvim",
         lazy = false,
         config = function()
