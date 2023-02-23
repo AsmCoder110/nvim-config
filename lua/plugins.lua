@@ -80,7 +80,7 @@ require "lazy".setup({
                     untracked    = { text = "┆" },
                 },
                 signcolumn                   = true, -- Toggle with `:Gitsigns toggle_signs`
-                numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`
+                numhl                        = true, -- Toggle with `:Gitsigns toggle_numhl`
                 linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
                 word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
                 watch_gitdir                 = {
@@ -88,7 +88,7 @@ require "lazy".setup({
                     follow_files = true,
                 },
                 attach_to_untracked          = true,
-                current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+                current_line_blame           = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
                 current_line_blame_opts      = {
                     virt_text = true,
                     virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
@@ -147,7 +147,7 @@ require "lazy".setup({
                         function() gs.blame_line { full = true } end)
                     map("n", "<leader>tb", gs.toggle_current_line_blame)
                     map("n", "<leader>hd", gs.diffthis)
-                    map("n", "<leader>hD", function() gs.diffthis "~"  end)
+                    map("n", "<leader>hD", function() gs.diffthis "~" end)
                     map("n", "<leader>td", gs.toggle_deleted)
 
                     -- Text object
