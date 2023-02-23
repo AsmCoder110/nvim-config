@@ -355,11 +355,11 @@ require "lazy".setup({
                 },
                 automatic_installation = true,
             }
-            local opts = { noremap = true, silent = true }
-            vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
-            vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-            vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-            vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
+            local fopts = { noremap = true, silent = true }
+            vim.keymap.set("n", "gl", vim.diagnostic.open_float, fopts)
+            vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, fopts)
+            vim.keymap.set("n", "]d", vim.diagnostic.goto_next, fopts)
+            vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, fopts)
 
             -- Use an on_attach function to only map the following keys
             -- after the language server attaches to the current buffer
@@ -468,7 +468,6 @@ require "lazy".setup({
                     },
                 },
             }
-            --lspconfig.setup()
 
             require "luasnip.loaders.from_vscode".lazy_load()
             local cmp         = require "cmp"
