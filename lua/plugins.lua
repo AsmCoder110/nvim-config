@@ -323,8 +323,6 @@ require "lazy".setup({
             { "L3MON4D3/LuaSnip",                  event = "VeryLazy" },
             { "saadparwaiz1/cmp_luasnip",          event = "VeryLazy" },
             { "rafamadriz/friendly-snippets",      event = "VeryLazy" },
-            { "jay-babu/mason-null-ls.nvim",       event = "VeryLazy" },
-            { "jose-elias-alvarez/null-ls.nvim",   event = "VeryLazy" },
         },
         config = function()
             require "mason".setup()
@@ -570,6 +568,30 @@ require "lazy".setup({
                 },
             }
         end,
+    },
+    {
+        "jay-babu/null-ls.nvim",
+        lazy = false,
+        dependencies = {
+            { "jay-babu/mason-null-ls.nvim", event = "VeryLazy" },
+            { "neovim/nvim-lspconfig",       event = "VeryLazy" },
+            { "nvim-lua/plenary.nvim",       event = "VeryLazy" }
+        },
+        config = function()
+            require "mason".setup()
+            local null_ls = require "null-ls"
+            null_ls.setup {
+                sources = {
+                    null_ls.builtins.formatting.prettier,
+                }
+            }
+
+            require "mason-null-ls".setup {
+                ensure_installed = { "prettier" },
+                automatic_installation = true,
+                automatic_setup = false,
+            }
+        end
     },
     {
         "lukas-reineke/lsp-format.nvim",
