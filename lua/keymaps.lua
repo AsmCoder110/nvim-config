@@ -9,11 +9,12 @@ vim.keymap.set("n", "G", "Gzz")
 vim.keymap.set("n", "<Esc><Esc>", ":noh<cr>")
 vim.keymap.set("n", "<C-j><C-s>", ":w<cr>")
 
-vim.keymap.set("n", "<F6>", ":Dispatch browser-sync start --server --files '*.js, *.html, *.css'<CR>")
+vim.keymap.set("n", "<F6>",
+               ":Dispatch browser-sync start --server --files '*.js, *.html, *.css'<CR>")
 
 vim.keymap.set("n", "<leader>d", ":bd<CR>")
 vim.keymap.set("n", "<leader>l",
-    ":lua require('lazy.util').float_term(nil, { cwd = vim.fn.getcwd(), })<CR>")
+               ":lua require('lazy.util').float_term(nil, { cwd = vim.fn.getcwd(), })<CR>")
 
 vim.keymap.set("x", "Y", ":w !wl-copy<CR><CR>")
 
