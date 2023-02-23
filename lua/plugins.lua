@@ -539,6 +539,7 @@ require "lazy".setup({
                 }
             }
 
+
             local sign = function(opts)
                 vim.fn.sign_define(opts.name, {
                     texthl = opts.name,
@@ -555,7 +556,7 @@ require "lazy".setup({
             vim.diagnostic.config {
                 virtual_text = true,
                 signs = true,
-                update_in_insert = false,
+                update_in_insert = true,
                 underline = true,
                 severity_sort = true,
                 float = {
