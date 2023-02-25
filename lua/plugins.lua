@@ -172,10 +172,6 @@ require "lazy".setup({
         event = "VeryLazy",
     },
     {
-        "tpope/vim-surround",
-        event = "VeryLazy",
-    },
-    {
         "tpope/vim-unimpaired",
         event = "VeryLazy",
     },
@@ -317,6 +313,13 @@ require "lazy".setup({
                 },
             }
         end,
+    },
+    {
+        "kylechui/nvim-surround",
+        event = "VeryLazy",
+        config = function()
+            require "nvim-surround".setup()
+        end
     },
     {
         "williamboman/mason.nvim",
