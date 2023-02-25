@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-require "lazy".setup({
+require "lazy".setup {
     {
         "ellisonleao/gruvbox.nvim",
         lazy = false,
