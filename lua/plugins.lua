@@ -690,22 +690,4 @@ require "lazy".setup({
         "tpope/vim-rsi",
         lazy = false,
     },
-},                   {
-    ui = {
-        custom_keys = {
-            -- open lazygit log
-            ["<leader>l"] = function(plugin)
-                require "lazy.util".float_term({ "lazygit", "log" }, {
-                    cwd = plugin.dir,
-                })
-            end,
-
-            -- open a terminal for the plugin dir
-            ["<leader>t"] = function(plugin)
-                require "lazy.util".float_term(nil, {
-                    cwd = plugin.dir,
-                })
-            end,
-        },
-    },
-})
+}
