@@ -532,6 +532,17 @@ require "lazy".setup {
                 },
             }
 
+            lspconfig.html.setup {
+                on_attach = lsp_attach,
+                settings = {
+                    html = {
+                        format = {
+                            enable = false
+                        }
+                    }
+                }
+            }
+
             lspconfig.clangd.setup {
                 on_attach = lsp_attach,
                 settings = {
