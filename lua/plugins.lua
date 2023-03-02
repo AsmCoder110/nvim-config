@@ -54,11 +54,10 @@ require "lazy".setup {
         end,
     },
     {
-        "echasnovski/mini.pairs",
-        version = "*",
+        "windwp/nvim-autopairs",
         event = "VeryLazy",
         config = function()
-            require "mini.pairs".setup()
+            require "nvim-autopairs".setup()
         end,
     },
     {
@@ -623,6 +622,11 @@ require "lazy".setup {
                 }
             }
 
+            local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+            cmp.event:on(
+                "confirm_done",
+                cmp_autopairs.on_confirm_done()
+            )
 
             local sign = function(opts)
                 vim.fn.sign_define(opts.name, {
