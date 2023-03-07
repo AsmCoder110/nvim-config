@@ -2,16 +2,28 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 require "lazy".setup {
+    -- {
+    --     "ellisonleao/gruvbox.nvim",
+    --     lazy = false,
+    --     config = function()
+    --         require "gruvbox".setup {
+    --             invert_tabline = true,
+    --             dim_inactive = true,
+    --         }
+    --         vim.cmd "colorscheme gruvbox"
+    --     end,
+    -- },
     {
-        "ellisonleao/gruvbox.nvim",
+        "rose-pine/neovim",
         lazy = false,
         config = function()
-            require "gruvbox".setup {
-                invert_tabline = true,
-                dim_inactive = true,
+            require "rose-pine".setup {
+                variant = "main",
+                dim_nc_background = true,
+                disable_float_background = true,
             }
-            vim.cmd "colorscheme gruvbox"
-        end,
+            vim.cmd.colorscheme "rose-pine"
+        end
     },
     {
         "nvim-lualine/lualine.nvim",
@@ -89,8 +101,8 @@ require "lazy".setup {
                     changedelete = { text = "~" },
                     untracked    = { text = "┆" },
                 },
-                signcolumn                   = true, -- Toggle with `:Gitsigns toggle_signs`
-                numhl                        = true, -- Toggle with `:Gitsigns toggle_numhl`
+                signcolumn                   = true,  -- Toggle with `:Gitsigns toggle_signs`
+                numhl                        = true,  -- Toggle with `:Gitsigns toggle_numhl`
                 linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
                 word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
                 watch_gitdir                 = {
@@ -105,10 +117,11 @@ require "lazy".setup {
                     delay = 1000,
                     ignore_whitespace = false,
                 },
-                current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+                current_line_blame_formatter =
+                "<author>, <author_time:%Y-%m-%d> - <summary>",
                 sign_priority                = 6,
                 update_debounce              = 100,
-                status_formatter             = nil, -- Use default
+                status_formatter             = nil,   -- Use default
                 max_file_length              = 40000, -- Disable if file is longer than this (in lines)
                 preview_config               = {
                     -- Options passed to nvim_open_win
@@ -129,23 +142,23 @@ require "lazy".setup {
                         vim.keymap.set(mode, l, r, opts)
                     end
                     map("n", "]c", function()
-                        if vim.wo.diff then
-                            return "]c"
-                        end
-                        vim.schedule(function()
-                            gs.next_hunk()
-                        end)
-                        return "<Ignore>"
-                    end, { expr = true })
+                            if vim.wo.diff then
+                                return "]c"
+                            end
+                            vim.schedule(function()
+                                gs.next_hunk()
+                            end)
+                            return "<Ignore>"
+                        end, { expr = true })
                     map("n", "[c", function()
-                        if vim.wo.diff then
-                            return "[c"
-                        end
-                        vim.schedule(function()
-                            gs.prev_hunk()
-                        end)
-                        return "<Ignore>"
-                    end, { expr = true })
+                            if vim.wo.diff then
+                                return "[c"
+                            end
+                            vim.schedule(function()
+                                gs.prev_hunk()
+                            end)
+                            return "<Ignore>"
+                        end, { expr = true })
                     -- Actions
                     map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
                     map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
@@ -156,6 +169,7 @@ require "lazy".setup {
                     map("n", "<leader>hb",
                         function() gs.blame_line { full = true } end)
                     map("n", "<leader>tb", gs.toggle_current_line_blame)
+                    map("n", "<leader>tB", gs.blame_line)
                     map("n", "<leader>hd", gs.diffthis)
                     map("n", "<leader>hD", function() gs.diffthis "~" end)
                     map("n", "<leader>td", gs.toggle_deleted)
@@ -219,16 +233,51 @@ require "lazy".setup {
             { "<C-j><C-f>", ":Telescope find_files<cr>",  desc = "Find files" },
             { "<C-j><C-p>", ":Telescope commands<cr>",    desc = "Commands" },
             { "<C-j><C-e>", ":Telescope grep_string<cr>", desc = "Grep String" },
-            { "<leader>fb", ":Telescope buffers<cr>",     desc = "[F]ind [B]uffers" },
-            { "<leader>fd", ":Telescope diagnostics<cr>", desc = "[F]ind [D]iagnostics" },
-            { "<leader>ff", ":Telescope git_files<cr>",   desc = "[F]ind [F]iles Git Status" },
-            { "<leader>fh", ":Telescope oldfiles<cr>",    desc = "[F]ind [H]istory" },
-            { "<leader>fg", ":Telescope live_grep<cr>",   desc = "[F]ind [G]rep" },
-            { "<leader>fr", ":Telescope registers<cr>",   desc = "[F]ind [R]egisters" },
-            { "<leader>fk", ":Telescope keymaps<cr>",     desc = "[F]ind [K]eymaps" },
-            { "<leader>fm", ":Telescope marks<cr>",       desc = "[F]ind [M]arks" },
+            {
+                "<leader>fb",
+                ":Telescope buffers<cr>",
+                desc =
+                "[F]ind [B]uffers"
+            },
+            {
+                "<leader>fd",
+                ":Telescope diagnostics<cr>",
+                desc =
+                "[F]ind [D]iagnostics"
+            },
+            {
+                "<leader>ff",
+                ":Telescope git_files<cr>",
+                desc =
+                "[F]ind [F]iles Git Status"
+            },
+            {
+                "<leader>fh",
+                ":Telescope oldfiles<cr>",
+                desc =
+                "[F]ind [H]istory"
+            },
+            { "<leader>fg", ":Telescope live_grep<cr>", desc = "[F]ind [G]rep" },
+            {
+                "<leader>fr",
+                ":Telescope registers<cr>",
+                desc =
+                "[F]ind [R]egisters"
+            },
+            {
+                "<leader>fk",
+                ":Telescope keymaps<cr>",
+                desc =
+                "[F]ind [K]eymaps"
+            },
+            { "<leader>fm", ":Telescope marks<cr>",     desc = "[F]ind [M]arks" },
         },
-        dependencies = { { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-fzy-native.nvim", lazy = true } },
+        dependencies = {
+            {
+                "nvim-lua/plenary.nvim",
+                "nvim-telescope/telescope-fzy-native.nvim",
+                lazy = true
+            } },
         config = function()
             local actions = require "telescope.actions"
             require "telescope".setup {
@@ -236,7 +285,7 @@ require "lazy".setup {
                     winblend = 20,
                     mappings = {
                         i = {
-                            ["<esc>"] = actions.close,
+                                ["<esc>"] = actions.close,
                         },
                     },
                     file_ignore_patterns = {
@@ -253,8 +302,8 @@ require "lazy".setup {
                     file_browser = {
                         theme = "ivy",
                         mappings = {
-                            ["i"] = {},
-                            ["n"] = {},
+                                ["i"] = {},
+                                ["n"] = {},
                         },
                     },
                 },
@@ -323,40 +372,40 @@ require "lazy".setup {
                         enable = true,
                         lookahead = true,
                         keymaps = {
-                            ["af"] = "@function.outer",
-                            ["if"] = "@function.inner",
-                            ["ac"] = "@class.outer",
-                            ["ic"] = "@class.inner",
-                            ["as"] = "@scope",
+                                ["af"] = "@function.outer",
+                                ["if"] = "@function.inner",
+                                ["ac"] = "@class.outer",
+                                ["ic"] = "@class.inner",
+                                ["as"] = "@scope",
                         },
                         selection_modes = {
-                            ["@parameter.outer"] = "v",
-                            ["@function.outer"] = "V",
-                            ["@class.outer"] = "<c-v>",
+                                ["@parameter.outer"] = "v",
+                                ["@function.outer"] = "V",
+                                ["@class.outer"] = "<c-v>",
                         },
                     },
                     move = {
                         enable = true,
                         set_jumps = true,
                         goto_next_start = {
-                            ["]m"] = "@function.outer",
-                            ["]]"] = "@class.outer",
-                            ["]o"] = "@loop.*",
-                            ["]s"] = "@scope",
-                            ["it"] = "@attribute.inner",
-                            ["iT"] = "@attribute.outer",
+                                ["]m"] = "@function.outer",
+                                ["]]"] = "@class.outer",
+                                ["]o"] = "@loop.*",
+                                ["]s"] = "@scope",
+                                ["it"] = "@attribute.inner",
+                                ["iT"] = "@attribute.outer",
                         },
                         goto_next_end = {
-                            ["]M"] = "@function.outer",
-                            ["]["] = "@class.outer",
+                                ["]M"] = "@function.outer",
+                                ["]["] = "@class.outer",
                         },
                         goto_previous_start = {
-                            ["[m"] = "@function.outer",
-                            ["[["] = "@class.outer",
+                                ["[m"] = "@function.outer",
+                                ["[["] = "@class.outer",
                         },
                         goto_previous_end = {
-                            ["[M"] = "@function.outer",
-                            ["[]"] = "@class.outer",
+                                ["[M"] = "@function.outer",
+                                ["[]"] = "@class.outer",
                         }
                     },
                     lsp_interop = {
@@ -364,8 +413,8 @@ require "lazy".setup {
                         border = "none",
                         floating_preview_opts = {},
                         peek_definition_code = {
-                            ["<leader>df"] = "@function.outer",
-                            ["<leader>dF"] = "@class.outer",
+                                ["<leader>df"] = "@function.outer",
+                                ["<leader>dF"] = "@class.outer",
                         }
                     }
                 }
@@ -449,12 +498,13 @@ require "lazy".setup {
                 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
                 vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
                 vim.keymap.set("n", "<space>wa", vim.lsp.buf
-                .add_workspace_folder, bufopts)
+                               .add_workspace_folder, bufopts)
                 vim.keymap.set("n", "<space>wr",
                                vim.lsp.buf.remove_workspace_folder, bufopts)
                 vim.keymap.set("n", "<space>wl", function()
-                    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-                end,           bufopts)
+                                   print(vim.inspect(vim.lsp.buf
+                                       .list_workspace_folders()))
+                               end, bufopts)
                 vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition,
                                bufopts)
                 vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, bufopts)
@@ -519,8 +569,8 @@ require "lazy".setup {
                         },
                         workspace = {
                             library = {
-                                [vim.fn.expand "$VIMRUNTIME/lua"]         = true,
-                                [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+                                    [vim.fn.expand "$VIMRUNTIME/lua"]     = true,
+                                    [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
                             },
                         },
                         -- Do not send telemetry data containing a randomized but unique identifier
@@ -587,38 +637,38 @@ require "lazy".setup {
                     end,
                 },
                 mapping = {
-                    ["<CR>"]  = cmp.mapping.confirm { select = true } ,
-                    ["<c-p>"] = cmp.mapping.select_prev_item(select_opts),
-                    ["<c-n>"] = cmp.mapping.select_next_item(select_opts),
-                    ["<c-u>"] = cmp.mapping.scroll_docs( -4),
-                    ["<c-f>"] = cmp.mapping.scroll_docs(4),
-                    ["<c-d>"] = cmp.mapping(function(fallback)
-                        if luasnip.jumpable(1) then
-                            luasnip.jump(1)
-                        else
-                            fallback()
-                        end
-                    end,                    { "i", "s" }),
-                    ["<c-b>"] = cmp.mapping(function(fallback)
-                        if luasnip.jumpable( -1) then
-                            luasnip.jump( -1)
-                        else
-                            fallback()
-                        end
-                    end,                    { "i", "s" }),
-                    ["<c-g>"] = cmp.mapping(function(fallback)
-                        local col = vim.fn.col "." - 1
-                        if cmp.visible() then
-                            cmp.select_next_item(select_opts)
-                        elseif col == 0 or vim.fn.getline ".":sub(col, col):match "%s" then
-                            fallback()
-                        else
-                            cmp.complete()
-                        end
-                    end,                    { "i", "s" }),
-                    ["<C-y>"] = cmp.mapping.abort(),
-
-
+                        ["<CR>"] = cmp.mapping.confirm { select = true },
+                        ["<c-p>"] = cmp.mapping.select_prev_item(select_opts),
+                        ["<c-n>"] = cmp.mapping.select_next_item(select_opts),
+                        ["<c-u>"] = cmp.mapping.scroll_docs(-4),
+                        ["<c-f>"] = cmp.mapping.scroll_docs(4),
+                        ["<c-d>"] = cmp.mapping(function(fallback)
+                                                    if luasnip.jumpable(1) then
+                                                        luasnip.jump(1)
+                                                    else
+                                                        fallback()
+                                                    end
+                                                end, { "i", "s" }),
+                        ["<c-b>"] = cmp.mapping(function(fallback)
+                                                    if luasnip.jumpable(-1) then
+                                                        luasnip.jump(-1)
+                                                    else
+                                                        fallback()
+                                                    end
+                                                end, { "i", "s" }),
+                        ["<c-g>"] = cmp.mapping(function(fallback)
+                                                    local col = vim.fn.col "." -
+                                                        1
+                                                    if cmp.visible() then
+                                                        cmp.select_next_item(
+                                                            select_opts)
+                                                    elseif col == 0 or vim.fn.getline ".":sub(col, col):match "%s" then
+                                                        fallback()
+                                                    else
+                                                        cmp.complete()
+                                                    end
+                                                end, { "i", "s" }),
+                        ["<C-y>"] = cmp.mapping.abort(),
                 }
             }
 
@@ -640,6 +690,7 @@ require "lazy".setup {
             sign { name = "DiagnosticSignWarn", text = "🟡" }
             sign { name = "DiagnosticSignHint", text = "🔵" }
             sign { name = "DiagnosticSignInfo", text = "🟢" }
+
 
             vim.diagnostic.config {
                 virtual_text = true,
