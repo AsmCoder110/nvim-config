@@ -682,17 +682,6 @@ require "lazy".setup {
         end
     },
     {
-        "lukas-reineke/lsp-format.nvim",
-        event = "VeryLazy",
-        config = function()
-            require "lsp-format".setup {}
-            local on_attach = function(client)
-                require "lsp-format".on_attach(client)
-            end
-            require "lspconfig".gopls.setup { on_attach = on_attach }
-        end,
-    },
-    {
         "dnlhc/glance.nvim",
         event = "VeryLazy",
         config = true,
