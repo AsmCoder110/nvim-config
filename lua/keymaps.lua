@@ -2,15 +2,16 @@ vim.keymap.set("i", "<C-h>", "<Plug>luasnip-expand-or-jump")
 vim.keymap.set("i", "<C-j><C-s>", "<C-o>:w<cr>")
 vim.keymap.set("i", "<C-BS>", "<C-w>")
 
-vim.keymap.set("n", "L", "Lzz")
-vim.keymap.set("n", "H", "Hzz")
-vim.keymap.set("n", "G", "Gzz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<Esc><Esc>", ":noh<cr>")
 vim.keymap.set("n", "<C-j><C-s>", ":w<cr>")
 
 vim.keymap.set("n", "<F6>",
-               ":Dispatch browser-sync start --server --files '*.js, *.html, *.css'<CR>")
+               ":Dispatch browser-sync start --server --files '*.js, ./**/*.js *.html, *.css, ./**/*.css'<CR>")
 
 vim.keymap.set("n", "<leader>d", ":bd<CR>")
 vim.keymap.set("n", "<leader>l",
