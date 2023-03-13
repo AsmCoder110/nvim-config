@@ -637,38 +637,38 @@ require "lazy".setup {
                     end,
                 },
                 mapping = {
-                        ["<CR>"] = cmp.mapping.confirm { select = true },
-                        ["<c-p>"] = cmp.mapping.select_prev_item(select_opts),
-                        ["<c-n>"] = cmp.mapping.select_next_item(select_opts),
-                        ["<c-u>"] = cmp.mapping.scroll_docs(-4),
-                        ["<c-f>"] = cmp.mapping.scroll_docs(4),
-                        ["<c-d>"] = cmp.mapping(function(fallback)
-                                                    if luasnip.jumpable(1) then
-                                                        luasnip.jump(1)
-                                                    else
-                                                        fallback()
-                                                    end
-                                                end, { "i", "s" }),
-                        ["<c-b>"] = cmp.mapping(function(fallback)
-                                                    if luasnip.jumpable(-1) then
-                                                        luasnip.jump(-1)
-                                                    else
-                                                        fallback()
-                                                    end
-                                                end, { "i", "s" }),
-                        ["<c-g>"] = cmp.mapping(function(fallback)
-                                                    local col = vim.fn.col "." -
-                                                        1
-                                                    if cmp.visible() then
-                                                        cmp.select_next_item(
-                                                            select_opts)
-                                                    elseif col == 0 or vim.fn.getline ".":sub(col, col):match "%s" then
-                                                        fallback()
-                                                    else
-                                                        cmp.complete()
-                                                    end
-                                                end, { "i", "s" }),
-                        ["<C-y>"] = cmp.mapping.abort(),
+                    ["<CR>"] = cmp.mapping.confirm { select = true },
+                    ["<c-p>"] = cmp.mapping.select_prev_item(select_opts),
+                    ["<c-n>"] = cmp.mapping.select_next_item(select_opts),
+                    ["<c-u>"] = cmp.mapping.scroll_docs(-4),
+                    ["<c-f>"] = cmp.mapping.scroll_docs(4),
+                    ["<c-d>"] = cmp.mapping(function(fallback)
+                                                if luasnip.jumpable(1) then
+                                                    luasnip.jump(1)
+                                                else
+                                                    fallback()
+                                                end
+                                            end, { "i", "s" }),
+                    ["<c-b>"] = cmp.mapping(function(fallback)
+                                                if luasnip.jumpable(-1) then
+                                                    luasnip.jump(-1)
+                                                else
+                                                    fallback()
+                                                end
+                                            end, { "i", "s" }),
+                    ["<c-g>"] = cmp.mapping(function(fallback)
+                                                local col = vim.fn.col "." -
+                                                    1
+                                                if cmp.visible() then
+                                                    cmp.select_next_item(
+                                                        select_opts)
+                                                elseif col == 0 or vim.fn.getline ".":sub(col, col):match "%s" then
+                                                    fallback()
+                                                else
+                                                    cmp.complete()
+                                                end
+                                            end, { "i", "s" }),
+                    ["<C-y>"] = cmp.mapping.abort(),
                 }
             }
 
