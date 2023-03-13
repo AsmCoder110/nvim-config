@@ -722,11 +722,16 @@ require "lazy".setup {
             null_ls.setup {
                 sources = {
                     null_ls.builtins.formatting.prettier,
+                    null_ls.builtins.formatting.cmake_format.with {
+                        extra_args = {
+                            "-c /home/asmcoder/.config/cmake_format/config.json"
+                        }
+                    }
                 }
             }
 
             require "mason-null-ls".setup {
-                ensure_installed = { "prettier" },
+                ensure_installed = { "prettier", "cmake_format" },
                 automatic_installation = true,
                 automatic_setup = false,
             }
