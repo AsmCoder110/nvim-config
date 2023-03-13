@@ -602,6 +602,19 @@ require "lazy".setup {
                 },
             }
 
+            lspconfig.asm_lsp.setup {
+                on_attach = lsp_attach,
+                filetypes = { "asm", "s" },
+            }
+
+            lspconfig.cmake.setup {
+                on_attach = lsp_attach,
+            }
+
+            lspconfig.neocmake.setup {
+                on_attach = lsp_attach,
+            }
+
             require "luasnip.loaders.from_vscode".lazy_load()
             local cmp         = require "cmp"
             local luasnip     = require "luasnip"
