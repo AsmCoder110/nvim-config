@@ -285,7 +285,7 @@ require "lazy".setup {
                     winblend = 20,
                     mappings = {
                         i = {
-                                ["<esc>"] = actions.close,
+                            ["<esc>"] = actions.close,
                         },
                     },
                     file_ignore_patterns = {
@@ -302,8 +302,8 @@ require "lazy".setup {
                     file_browser = {
                         theme = "ivy",
                         mappings = {
-                                ["i"] = {},
-                                ["n"] = {},
+                            ["i"] = {},
+                            ["n"] = {},
                         },
                     },
                 },
@@ -372,40 +372,40 @@ require "lazy".setup {
                         enable = true,
                         lookahead = true,
                         keymaps = {
-                                ["af"] = "@function.outer",
-                                ["if"] = "@function.inner",
-                                ["ac"] = "@class.outer",
-                                ["ic"] = "@class.inner",
-                                ["as"] = "@scope",
+                            ["af"] = "@function.outer",
+                            ["if"] = "@function.inner",
+                            ["ac"] = "@class.outer",
+                            ["ic"] = "@class.inner",
+                            ["as"] = "@scope",
                         },
                         selection_modes = {
-                                ["@parameter.outer"] = "v",
-                                ["@function.outer"] = "V",
-                                ["@class.outer"] = "<c-v>",
+                            ["@parameter.outer"] = "v",
+                            ["@function.outer"] = "V",
+                            ["@class.outer"] = "<c-v>",
                         },
                     },
                     move = {
                         enable = true,
                         set_jumps = true,
                         goto_next_start = {
-                                ["]m"] = "@function.outer",
-                                ["]]"] = "@class.outer",
-                                ["]o"] = "@loop.*",
-                                ["]s"] = "@scope",
-                                ["it"] = "@attribute.inner",
-                                ["iT"] = "@attribute.outer",
+                            ["]m"] = "@function.outer",
+                            ["]]"] = "@class.outer",
+                            ["]o"] = "@loop.*",
+                            ["]s"] = "@scope",
+                            ["it"] = "@attribute.inner",
+                            ["iT"] = "@attribute.outer",
                         },
                         goto_next_end = {
-                                ["]M"] = "@function.outer",
-                                ["]["] = "@class.outer",
+                            ["]M"] = "@function.outer",
+                            ["]["] = "@class.outer",
                         },
                         goto_previous_start = {
-                                ["[m"] = "@function.outer",
-                                ["[["] = "@class.outer",
+                            ["[m"] = "@function.outer",
+                            ["[["] = "@class.outer",
                         },
                         goto_previous_end = {
-                                ["[M"] = "@function.outer",
-                                ["[]"] = "@class.outer",
+                            ["[M"] = "@function.outer",
+                            ["[]"] = "@class.outer",
                         }
                     },
                     lsp_interop = {
@@ -413,8 +413,8 @@ require "lazy".setup {
                         border = "none",
                         floating_preview_opts = {},
                         peek_definition_code = {
-                                ["<leader>df"] = "@function.outer",
-                                ["<leader>dF"] = "@class.outer",
+                            ["<leader>df"] = "@function.outer",
+                            ["<leader>dF"] = "@class.outer",
                         }
                     }
                 }
@@ -569,8 +569,8 @@ require "lazy".setup {
                         },
                         workspace = {
                             library = {
-                                    [vim.fn.expand "$VIMRUNTIME/lua"]     = true,
-                                    [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+                                [vim.fn.expand "$VIMRUNTIME/lua"]         = true,
+                                [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
                             },
                         },
                         -- Do not send telemetry data containing a randomized but unique identifier
