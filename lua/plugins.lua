@@ -444,6 +444,7 @@ require "lazy".setup {
             { "L3MON4D3/LuaSnip",                  event = "VeryLazy" },
             { "saadparwaiz1/cmp_luasnip",          event = "VeryLazy" },
             { "rafamadriz/friendly-snippets",      event = "VeryLazy" },
+            { "honza/vim-snippets",                event = "VeryLazy" },
         },
         config = function()
             require "mason".setup()
@@ -484,7 +485,7 @@ require "lazy".setup {
 
             -- Use an on_attach function to only map the following keys
             -- after the language server attaches to the current buffer
-            local lsp_attach       = function(_, bufnr)
+            local lsp_attach = function(_, bufnr)
                 -- Enable completion triggered by <c-x><c-o>
                 vim.api.nvim_buf_set_option(bufnr, "omnifunc",
                                             "v:lua.vim.lsp.omnifunc")
@@ -525,97 +526,9 @@ require "lazy".setup {
                 vim.keymap.set("n", "<leader>rf", telescope.lsp_references,
                                { desc = "lsp references" })
             end
-            local lsp_capabilities = require "cmp_nvim_lsp"
-                .default_capabilities()
-            local lspconfig        = require "lspconfig"
-
-            require "mason-lspconfig".setup_handlers {
-                function(server_name)
-                    lspconfig[server_name].setup {
-                        on_attach = lsp_attach,
-                        capabilities = lsp_capabilities,
-                    }
-                end,
-            }
-
-            lspconfig.lua_ls.setup {
-                on_attach = lsp_attach,
-                settings = {
-                    Lua = {
-                        runtime = {
-                            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                            version = "LuaJIT",
-                        },
-                        codeLens = {
-                            enable = true,
-                        },
-                        format = {
-                            enable = true,
-                            defaultConfig = {
-                                indent_size                       = "4",
-                                indent_style                      = "space",
-                                max_line_length                   = "80",
-                                align_call_args                   = "true",
-                                align_function_params             = "true",
-                                align_continuous_assign_statement = "true",
-                                align_array_table                 = "true",
-                                call_arg_parentheses              = "remove",
-                                quote_style                       = "double",
-                            },
-                        },
-                        diagnostics = {
-                            -- Get the language server to recognize the `vim` global
-                            globals = { "vim" },
-                        },
-                        workspace = {
-                            library = {
-                                [vim.fn.expand "$VIMRUNTIME/lua"]         = true,
-                                [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-                            },
-                        },
-                        -- Do not send telemetry data containing a randomized but unique identifier
-                        telemetry = {
-                            enable = false,
-                        },
-                    },
-                },
-            }
-
-            lspconfig.html.setup {
-                on_attach = lsp_attach,
-                settings = {
-                    html = {
-                        format = {
-                            enable = false
-                        }
-                    }
-                }
-            }
-
-            lspconfig.clangd.setup {
-                on_attach = lsp_attach,
-                settings = {
-                    clangd = {
-                        checkUpdates = true,
-                        -- arguments = [ "--clang-tidy" ],
-                    },
-                },
-            }
-
-            lspconfig.asm_lsp.setup {
-                on_attach = lsp_attach,
-                filetypes = { "asm", "s" },
-            }
-
-            lspconfig.cmake.setup {
-                on_attach = lsp_attach,
-            }
-
-            lspconfig.neocmake.setup {
-                on_attach = lsp_attach,
-            }
 
             require "luasnip.loaders.from_vscode".lazy_load()
+            require "luasnip.loaders.from_snipmate".lazy_load()
             local cmp         = require "cmp"
             local luasnip     = require "luasnip"
 
@@ -681,8 +594,107 @@ require "lazy".setup {
                                                     cmp.complete()
                                                 end
                                             end, { "i", "s" }),
+                    ["<C-h>"] = cmp.mapping(function(_)
+                                                luasnip.expand()
+                                            end, { "i", "s" }),
                     ["<C-y>"] = cmp.mapping.abort(),
                 }
+            }
+
+            local lsp_capabilities = require "cmp_nvim_lsp"
+                .default_capabilities()
+            local lspconfig        = require "lspconfig"
+
+            require "mason-lspconfig".setup_handlers {
+                function(server_name)
+                    lspconfig[server_name].setup {
+                        on_attach = lsp_attach,
+                        capabilities = lsp_capabilities,
+                    }
+                end,
+            }
+
+            lspconfig.lua_ls.setup {
+                on_attach = lsp_attach,
+                capabilities = lsp_capabilities,
+                settings = {
+                    Lua = {
+                        runtime = {
+                            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                            version = "LuaJIT",
+                        },
+                        codeLens = {
+                            enable = true,
+                        },
+                        format = {
+                            enable = true,
+                            defaultConfig = {
+                                indent_size                       = "4",
+                                indent_style                      = "space",
+                                max_line_length                   = "80",
+                                align_call_args                   = "true",
+                                align_function_params             = "true",
+                                align_continuous_assign_statement = "true",
+                                align_array_table                 = "true",
+                                call_arg_parentheses              = "remove",
+                                quote_style                       = "double",
+                            },
+                        },
+                        diagnostics = {
+                            -- Get the language server to recognize the `vim` global
+                            globals = { "vim" },
+                        },
+                        workspace = {
+                            library = {
+                                [vim.fn.expand "$VIMRUNTIME/lua"]         = true,
+                                [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+                            },
+                        },
+                        -- Do not send telemetry data containing a randomized but unique identifier
+                        telemetry = {
+                            enable = false,
+                        },
+                    },
+                },
+            }
+
+            lspconfig.html.setup {
+                on_attach = lsp_attach,
+                capabilities = lsp_capabilities,
+                settings = {
+                    html = {
+                        format = {
+                            enable = false
+                        }
+                    }
+                }
+            }
+
+            lspconfig.clangd.setup {
+                on_attach = lsp_attach,
+                capabilities = lsp_capabilities,
+                settings = {
+                    clangd = {
+                        checkUpdates = true,
+                        -- arguments = [ "--clang-tidy" ],
+                    },
+                },
+            }
+
+            lspconfig.asm_lsp.setup {
+                on_attach = lsp_attach,
+                capabilities = lsp_capabilities,
+                filetypes = { "asm", "s" },
+            }
+
+            lspconfig.cmake.setup {
+                on_attach = lsp_attach,
+                capabilities = lsp_capabilities,
+            }
+
+            lspconfig.neocmake.setup {
+                on_attach = lsp_attach,
+                capabilities = lsp_capabilities,
             }
 
             local cmp_autopairs = require "nvim-autopairs.completion.cmp"
