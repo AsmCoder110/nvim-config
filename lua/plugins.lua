@@ -746,7 +746,17 @@ require "lazy".setup {
         config = function()
             require "mason".setup()
             local null_ls = require "null-ls"
+            local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
             null_ls.setup {
+                on_attach = function(_, bufnr)
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        group = augroup,
+                        buffer = bufnr,
+                        callback = function()
+                            vim.lsp.buf.format { bufnr = bufnr }
+                        end
+                    })
+                end,
                 sources = {
                     null_ls.builtins.formatting.prettier,
                     null_ls.builtins.formatting.cmake_format.with {
