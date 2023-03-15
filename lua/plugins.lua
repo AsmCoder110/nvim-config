@@ -373,9 +373,9 @@ require "lazy".setup {
                         lookahead = true,
                         keymaps = {
                             ["af"] = "@function.outer",
-                            ["if"] = "@function.inner",
                             ["ac"] = "@class.outer",
-                            ["ic"] = "@class.inner",
+                            -- ["ic"] = "@class.inner",
+                            -- ["if"] = "@function.inner",
                             ["as"] = "@scope",
                         },
                         selection_modes = {
@@ -392,8 +392,8 @@ require "lazy".setup {
                             ["]]"] = "@class.outer",
                             ["]o"] = "@loop.*",
                             ["]s"] = "@scope",
-                            ["it"] = "@attribute.inner",
-                            ["iT"] = "@attribute.outer",
+                            -- ["it"] = "@attribute.inner",
+                            -- ["iT"] = "@attribute.outer",
                         },
                         goto_next_end = {
                             ["]M"] = "@function.outer",
